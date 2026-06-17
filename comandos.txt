@@ -1,0 +1,3 @@
+javac -cp ".;C:\mysql-connector-j-9.7.0.jar" xxxxxx.java
+
+java -cp ".;C:\mysql-connector-j-9.7.0.jar" xxxxxx
