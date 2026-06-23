@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class DireccionCRUD {
+public class c3m_direccionCRUD {
 
     static final String URL = "jdbc:mysql://localhost:3306/catastro_db";
     static final String USER = "root";

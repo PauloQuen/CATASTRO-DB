@@ -1,7 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
 
-public class ViviendaCRUD {
+public class h6m_personaCRUD {
 
     static final String URL =
             "jdbc:mysql://localhost:3306/catastro_db";
@@ -50,7 +50,7 @@ public class ViviendaCRUD {
 
         do
         {
-            System.out.println("\n===== CRUD VIVIENDA =====");
+            System.out.println("\n===== CRUD PERSONA =====");
             System.out.println("1. Insertar");
             System.out.println("2. Listar");
             System.out.println("3. Buscar");
@@ -60,86 +60,81 @@ public class ViviendaCRUD {
 
             System.out.print("Opcion: ");
             opcion = sc.nextInt();
-            sc.nextLine();
 
             switch(opcion)
             {
                 case 1:
-                    insertarVivienda();
+                    insertarPersona();
                     break;
 
                 case 2:
-                    listarVivienda();
+                    listarPersona();
                     break;
 
                 case 3:
-                    buscarVivienda();
+                    buscarPersona();
                     break;
 
                 case 4:
-                    actualizarVivienda();
+                    actualizarPersona();
                     break;
 
                 case 5:
-                    eliminarVivienda();
+                    eliminarPersona();
                     break;
             }
 
-        } while(opcion != 6);
+        }while(opcion != 6);
     }
 
     // ==========================
     // INSERT
     // ==========================
-    public static void insertarVivienda()
+    public static void insertarPersona()
     {
         Connection conn = conectar();
 
         try
         {
             String sql =
-            "INSERT INTO C3M_VIVIENDA " +
-            "(VivCod,VivZon,VivDir,VivUbigeo," +
-            "VivTipPr,VivUsoPr,VivVal,VivEstReg) " +
-            "VALUES (?,?,?,?,?,?,?,?)";
+            "INSERT INTO H6M_PERSONA " +
+            "(PerDNI,PerNom,PerApePat,PerApeMat,PerIng,PerViv,PerEstReg) " +
+            "VALUES (?,?,?,?,?,?,?)";
 
             PreparedStatement stmt =
             conn.prepareStatement(sql);
 
-            System.out.print("Codigo Vivienda: ");
-            String cod = sc.nextLine();
-
-            System.out.print("Zona: ");
-            int zona = sc.nextInt();
-
-            System.out.print("Direccion: ");
-            int dir = sc.nextInt();
+            System.out.print("DNI: ");
+            int dni = sc.nextInt();
             sc.nextLine();
 
-            System.out.print("Ubigeo: ");
-            String ubigeo = sc.nextLine();
+            System.out.print("Nombre: ");
+            String nom = sc.nextLine();
 
-            System.out.print("Tipo Predio: ");
-            String tipo = sc.nextLine();
+            System.out.print("Apellido Paterno: ");
+            String apePat = sc.nextLine();
 
-            System.out.print("Uso Predio: ");
-            String uso = sc.nextLine();
+            System.out.print("Apellido Materno: ");
+            String apeMat = sc.nextLine();
 
-            System.out.print("Valor Catastral: ");
-            double valor = sc.nextDouble();
+            System.out.print("Ingreso: ");
+            double ingreso = sc.nextDouble();
+            sc.nextLine();
 
-            stmt.setString(1,cod);
-            stmt.setInt(2,zona);
-            stmt.setInt(3,dir);
-            stmt.setString(4,ubigeo);
-            stmt.setString(5,tipo);
-            stmt.setString(6,uso);
-            stmt.setDouble(7,valor);
-            stmt.setString(8,"1");
+            System.out.print("Codigo Vivienda: ");
+            String viv = sc.nextLine();
+
+            stmt.setInt(1,dni);
+            stmt.setString(2,nom);
+            stmt.setString(3,apePat);
+            stmt.setString(4,apeMat);
+            stmt.setDouble(5,ingreso);
+            stmt.setString(6,viv);
+            stmt.setString(7,"1");
 
             stmt.executeUpdate();
 
-            System.out.println("Vivienda registrada.");
+            System.out.println("Persona registrada.");
 
             stmt.close();
             conn.close();
@@ -153,14 +148,14 @@ public class ViviendaCRUD {
     // ==========================
     // LIST
     // ==========================
-    public static void listarVivienda()
+    public static void listarPersona()
     {
         Connection conn = conectar();
 
         try
         {
             String sql =
-            "SELECT * FROM C3M_VIVIENDA";
+            "SELECT * FROM H6M_PERSONA";
 
             Statement stmt =
             conn.createStatement();
@@ -171,15 +166,15 @@ public class ViviendaCRUD {
             while(rs.next())
             {
                 System.out.println(
-                rs.getString("VivCod")
+                rs.getInt("PerDNI")
                 + " | "
-                + rs.getString("VivUbigeo")
+                + rs.getString("PerNom")
+                + " "
+                + rs.getString("PerApePat")
+                + " "
+                + rs.getString("PerApeMat")
                 + " | "
-                + rs.getString("VivTipPr")
-                + " | "
-                + rs.getString("VivUsoPr")
-                + " | "
-                + rs.getDouble("VivVal"));
+                + rs.getDouble("PerIng"));
             }
 
             rs.close();
@@ -195,53 +190,41 @@ public class ViviendaCRUD {
     // ==========================
     // SEARCH
     // ==========================
-    public static void buscarVivienda()
+    public static void buscarPersona()
     {
         Connection conn = conectar();
 
         try
         {
             String sql =
-            "SELECT * FROM C3M_VIVIENDA " +
-            "WHERE VivCod=?";
+            "SELECT * FROM H6M_PERSONA WHERE PerDNI=?";
 
             PreparedStatement stmt =
             conn.prepareStatement(sql);
 
-            System.out.print("Codigo Vivienda: ");
-            String codigo = sc.nextLine();
+            System.out.print("DNI: ");
 
-            stmt.setString(1,codigo);
+            int dni = sc.nextInt();
+
+            stmt.setInt(1,dni);
 
             ResultSet rs =
             stmt.executeQuery();
 
             if(rs.next())
             {
-                System.out.println("Codigo: "
-                        + rs.getString("VivCod"));
+                System.out.println(
+                rs.getString("PerNom"));
 
-                System.out.println("Zona: "
-                        + rs.getInt("VivZon"));
+                System.out.println(
+                rs.getString("PerApePat"));
 
-                System.out.println("Direccion: "
-                        + rs.getInt("VivDir"));
-
-                System.out.println("Ubigeo: "
-                        + rs.getString("VivUbigeo"));
-
-                System.out.println("Tipo: "
-                        + rs.getString("VivTipPr"));
-
-                System.out.println("Uso: "
-                        + rs.getString("VivUsoPr"));
-
-                System.out.println("Valor: "
-                        + rs.getDouble("VivVal"));
+                System.out.println(
+                rs.getString("PerApeMat"));
             }
             else
             {
-                System.out.println("No encontrada.");
+                System.out.println("No encontrado");
             }
 
             rs.close();
@@ -257,32 +240,37 @@ public class ViviendaCRUD {
     // ==========================
     // UPDATE
     // ==========================
-    public static void actualizarVivienda()
+    public static void actualizarPersona()
     {
         Connection conn = conectar();
 
         try
         {
             String sql =
-            "UPDATE C3M_VIVIENDA " +
-            "SET VivVal=? " +
-            "WHERE VivCod=?";
+            "UPDATE H6M_PERSONA " +
+            "SET PerNom=?, PerIng=? " +
+            "WHERE PerDNI=?";
 
             PreparedStatement stmt =
             conn.prepareStatement(sql);
 
-            System.out.print("Codigo Vivienda: ");
-            String codigo = sc.nextLine();
+            System.out.print("DNI: ");
+            int dni = sc.nextInt();
+            sc.nextLine();
 
-            System.out.print("Nuevo Valor: ");
-            double valor = sc.nextDouble();
+            System.out.print("Nuevo Nombre: ");
+            String nombre = sc.nextLine();
 
-            stmt.setDouble(1,valor);
-            stmt.setString(2,codigo);
+            System.out.print("Nuevo Ingreso: ");
+            double ingreso = sc.nextDouble();
+
+            stmt.setString(1,nombre);
+            stmt.setDouble(2,ingreso);
+            stmt.setInt(3,dni);
 
             stmt.executeUpdate();
 
-            System.out.println("Actualizada.");
+            System.out.println("Actualizado.");
 
             stmt.close();
             conn.close();
@@ -296,27 +284,28 @@ public class ViviendaCRUD {
     // ==========================
     // DELETE
     // ==========================
-    public static void eliminarVivienda()
+    public static void eliminarPersona()
     {
         Connection conn = conectar();
 
         try
         {
             String sql =
-            "DELETE FROM C3M_VIVIENDA " +
-            "WHERE VivCod=?";
+            "DELETE FROM H6M_PERSONA " +
+            "WHERE PerDNI=?";
 
             PreparedStatement stmt =
             conn.prepareStatement(sql);
 
-            System.out.print("Codigo Vivienda: ");
-            String codigo = sc.nextLine();
+            System.out.print("DNI: ");
 
-            stmt.setString(1,codigo);
+            int dni = sc.nextInt();
+
+            stmt.setInt(1,dni);
 
             stmt.executeUpdate();
 
-            System.out.println("Eliminada.");
+            System.out.println("Eliminado.");
 
             stmt.close();
             conn.close();
