@@ -13,9 +13,6 @@ public class c3m_direccionCRUD {
         menuPrincipal();
     }
 
-    // ==========================
-    // CONEXION
-    // ==========================
     public static Connection conectar() {
         Connection conn = null;
         try {
@@ -27,15 +24,12 @@ public class c3m_direccionCRUD {
         return conn;
     }
 
-    // ==========================
-    // MENU
-    // ==========================
     public static void menuPrincipal() {
         int opcion;
         do {
-            System.out.println("\n===== CRUD DIRECCION =====");
+            System.out.println("\n===== CRUD DIRECCION (CON VALIDACIÓN RELACIONAL) =====");
             System.out.println("1. Insertar Dirección");
-            System.out.println("2. Listar Direcciones");
+            System.out.println("2. Listar Direcciones (Con INNER JOIN)");
             System.out.println("3. Buscar por Código");
             System.out.println("4. Actualizar Dirección");
             System.out.println("5. Eliminar Dirección");
@@ -53,26 +47,45 @@ public class c3m_direccionCRUD {
         } while (opcion != 6);
     }
 
-    // ==========================
-    // INSERT
-    // ==========================
+    // ====================================================================
+    // METODO AUXILIAR PARA VALIDAR LOGICAMENTE QUE COMPAS EXISTAN EN MAESTROS
+    // ====================================================================
+    private static boolean existeIdEnTabla(Connection conn, String tabla, String campoId, int id) throws SQLException {
+        String sql = "SELECT COUNT(*) FROM " + tabla + " WHERE " + campoId + " = ?";
+        try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1) > 0;
+                }
+            }
+        }
+        return false;
+    }
+
     public static void insertarDireccion() {
         Connection conn = conectar();
         try {
-            String sql = "INSERT INTO C3M_DIRECCION " +
-                         "(DirCod, FKDirZon, FKDirViaTip, DirViaNom, DirNum, DirInt, DirUrb, DirRef, DirCodPos, DirLat, DirLon, DirEstReg) " +
-                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-            PreparedStatement stmt = conn.prepareStatement(sql);
-
             System.out.print("Código Dirección (Int): ");
             int dirCod = sc.nextInt();
             
             System.out.print("Código Zona FK (Int): ");
             int fkZon = sc.nextInt();
+            // VALIDACIÓN DE INTEGRIDAD REFERENCIAL DE LA ZONA
+            if (!existeIdEnTabla(conn, "c2m_zona", "ZonCod", fkZon)) {
+                System.out.println("ERROR: La Zona especificada (" + fkZon + ") no existe en c2m_zona. Operación cancelada.");
+                conn.close();
+                return;
+            }
             
             System.out.print("Código Tipo Vía FK (Int): ");
             int fkViaTip = sc.nextInt();
+            // VALIDACIÓN DE INTEGRIDAD REFERENCIAL DEL TIPO DE VIA
+            if (!existeIdEnTabla(conn, "c3m_via_tipo", "VtCod", fkViaTip)) {
+                System.out.println("ERROR: El Tipo de Vía especificado (" + fkViaTip + ") no existe en c3m_via_tipo. Operación cancelada.");
+                conn.close();
+                return;
+            }
             sc.nextLine(); // Limpiar buffer
 
             System.out.print("Nombre de la Vía: ");
@@ -101,7 +114,11 @@ public class c3m_direccionCRUD {
             int lon = sc.nextInt();
             sc.nextLine(); // Limpiar buffer
 
-            // Seteo de parámetros a la Query
+            String sql = "INSERT INTO C3M_DIRECCION " +
+                         "(DirCod, FKDirZon, FKDirViaTip, DirViaNom, DirNum, DirInt, DirUrb, DirRef, DirCodPos, DirLat, DirLon, DirEstReg) " +
+                         "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+            PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setInt(1, dirCod);
             stmt.setInt(2, fkZon);
             stmt.setInt(3, fkViaTip);
@@ -113,10 +130,10 @@ public class c3m_direccionCRUD {
             stmt.setString(9, codPos);
             stmt.setInt(10, lat);
             stmt.setInt(11, lon);
-            stmt.setString(12, "1"); // Estado de registro por defecto activo
+            stmt.setString(12, "1"); 
 
             stmt.executeUpdate();
-            System.out.println("Dirección registrada con éxito.");
+            System.out.println("Dirección registrada con éxito controlando su Integridad Referencial.");
 
             stmt.close();
             conn.close();
@@ -125,22 +142,26 @@ public class c3m_direccionCRUD {
         }
     }
 
-    // ==========================
-    // LIST
-    // ==========================
     public static void listarDirecciones() {
         Connection conn = conectar();
         try {
-            String sql = "SELECT * FROM C3M_DIRECCION WHERE DirEstReg = '1'";
+            // INNER JOIN CON LAS TABLAS EN REFERENCIALES PARA INTEGRAR DATOS LEGIBLES
+            String sql = "SELECT d.DirCod, z.ZonNom, vt.VtNom, d.DirViaNom, d.DirNum, d.DirInt, d.DirUrb, d.DirRef, d.DirCodPos " +
+                         "FROM C3M_DIRECCION d " +
+                         "INNER JOIN c2m_zona z ON d.FKDirZon = z.ZonCod " +
+                         "INNER JOIN c3m_via_tipo vt ON d.FKDirViaTip = vt.VtCod " +
+                         "WHERE d.DirEstReg = '1'";
+            
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
 
-            System.out.println("\n--- LISTADO DE DIRECCIONES ACTIVAS ---");
+            System.out.println("\n--- LISTADO DE DIRECCIONES ACTIVAS (CON INNER JOIN) ---");
             while (rs.next()) {
                 System.out.println(
                     "Cod: " + rs.getInt("DirCod") + " | " +
+                    "Zona: " + rs.getString("ZonNom") + " | " +
+                    "Vía: " + rs.getString("VtNom") + " " + rs.getString("DirViaNom") + " Nro: " + rs.getInt("DirNum") + " Int: " + rs.getInt("DirInt") + " | " +
                     "Urb: " + rs.getString("DirUrb") + " | " +
-                    "Vía: " + rs.getString("DirViaNom") + " Nro: " + rs.getInt("DirNum") + " Int: " + rs.getInt("DirInt") + " | " +
                     "Ref: " + rs.getString("DirRef") + " | " +
                     "CP: " + rs.getString("DirCodPos")
                 );
@@ -154,13 +175,13 @@ public class c3m_direccionCRUD {
         }
     }
 
-    // ==========================
-    // SEARCH
-    // ==========================
     public static void buscarDireccion() {
         Connection conn = conectar();
         try {
-            String sql = "SELECT * FROM C3M_DIRECCION WHERE DirCod = ?";
+            String sql = "SELECT d.*, z.ZonNom, vt.VtNom FROM C3M_DIRECCION d " +
+                         "INNER JOIN c2m_zona z ON d.FKDirZon = z.ZonCod " +
+                         "INNER JOIN c3m_via_tipo vt ON d.FKDirViaTip = vt.VtCod " +
+                         "WHERE d.DirCod = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
 
             System.out.print("Ingrese Código de Dirección a buscar: ");
@@ -172,8 +193,10 @@ public class c3m_direccionCRUD {
             if (rs.next()) {
                 System.out.println("\n--- DATOS ENCONTRADOS ---");
                 System.out.println("Código: " + rs.getInt("DirCod"));
-                System.out.println("Urbanización: " + rs.getString("DirUrb"));
+                System.out.println("Zona: " + rs.getString("ZonNom") + " (ID: " + rs.getInt("FKDirZon") + ")");
+                System.out.println("Tipo Vía: " + rs.getString("VtNom") + " (ID: " + rs.getInt("FKDirViaTip") + ")");
                 System.out.println("Vía: " + rs.getString("DirViaNom") + " #" + rs.getInt("DirNum") + " Interior: " + rs.getInt("DirInt"));
+                System.out.println("Urbanización: " + rs.getString("DirUrb"));
                 System.out.println("Referencia: " + rs.getString("DirRef"));
                 System.out.println("Código Postal: " + rs.getString("DirCodPos"));
                 System.out.println("Coordenadas: Lat: " + rs.getInt("DirLat") + " / Lon: " + rs.getInt("DirLon"));
@@ -190,13 +213,9 @@ public class c3m_direccionCRUD {
         }
     }
 
-    // ==========================
-    // UPDATE
-    // ==========================
     public static void actualizarDireccion() {
         Connection conn = conectar();
         try {
-            // Actualizamos los datos más comunes y cambiantes como la vía, el número, la urb y la referencia.
             String sql = "UPDATE C3M_DIRECCION " +
                          "SET DirViaNom = ?, DirNum = ?, DirUrb = ?, DirRef = ? " +
                          "WHERE DirCod = ?";
@@ -205,14 +224,14 @@ public class c3m_direccionCRUD {
 
             System.out.print("Ingrese el Código de la Dirección a modificar: ");
             int dirCod = sc.nextInt();
-            sc.nextLine(); // Limpiar buffer
+            sc.nextLine(); 
 
             System.out.print("Nuevo Nombre de la Vía: ");
             String viaNom = sc.nextLine();
 
             System.out.print("Nuevo Número: ");
             int num = sc.nextInt();
-            sc.nextLine(); // Limpiar buffer
+            sc.nextLine(); 
 
             System.out.print("Nueva Urbanización: ");
             String urb = sc.nextLine();
@@ -240,9 +259,6 @@ public class c3m_direccionCRUD {
         }
     }
 
-    // ==========================
-    // DELETE (Físico)
-    // ==========================
     public static void eliminarDireccion() {
         Connection conn = conectar();
         try {

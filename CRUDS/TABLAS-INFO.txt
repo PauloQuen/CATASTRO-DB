@@ -1,0 +1,93 @@
+TABLAS REFERENCIALES (MAESTROS Y CATÁLOGOS BASE)
+1. c1m_region
+Tipo: Referencial (Ubicación Geopolítica Superior).
+Por qué: Guarda únicamente los nombres oficiales de las regiones del país (como Arequipa). Es la raíz de donde parte toda la ubicación del sistema.
+2. c1m_provincia
+Tipo: Referencial (Ubicación Geopolítica Intermedia).
+Por qué: Almacena el listado de las provincias que pertenecen a cada región. Sirve para ir desglosando el mapa de forma ordenada.
+3. c1m_distrito
+Tipo: Referencial (Ubicación Geopolítica Local).
+Por qué: Contiene los distritos pertenecientes a cada provincia. Es el último escalón geográfico antes de entrar a la administración municipal.
+4. c1m_municipalidad
+Tipo: Referencial (Entidad Operativa Base).
+Por qué: Registra las municipalidades encargadas de gestionar el catastro de sus distritos. Vincula la división política con la gestión pública real.
+5. c2m_zona
+Tipo: Referencial (Sectorización Urbana).
+Por qué: Guarda las urbanizaciones, barrios, sectores o asentamientos en los que cada municipalidad divide su distrito para organizar las inspecciones de las propiedades.
+6. c3m_via_tipo
+Tipo: Referencial (Clasificador de Calles).
+Por qué: Es una lista fija que estandariza si una dirección queda en una Avenida, Jirón, Calle o Pasaje, evitando que los usuarios escriban el tipo de vía de formas diferentes.
+7. c5m_tipo_predio
+Tipo: Referencial (Clasificador de Inmuebles).
+Por qué: Define las categorías físicas de las propiedades, como terreno vacío, vivienda urbana o predio rústico.
+8. c5m_uso_predio
+Tipo: Referencial (Destino del Inmueble).
+Por qué: Indica la finalidad que se le da a la propiedad (residencial, comercial, industrial, educativa, etc.), sirviendo como base para el cálculo de impuestos.
+9. p9m_escala_tributo (o h8m_escala_tributaria)
+Tipo: Referencial (Configuración Económica).
+Por qué: Guarda los rangos oficiales de ingresos económicos y sus respectivos porcentajes tributarios definidos por la normativa vigente.
+10. pbm_presupuesto_anual
+Tipo: Referencial / Planificación Operativa.
+Por qué: Registra las metas y proyecciones presupuestales de cada municipalidad para un año determinado, permitiendo comparar posteriormente lo planificado con lo ejecutado.
+
+TABLAS FUNDAMENTALES (INFORMACIÓN VIVA Y MOVIMIENTO DIARIO)
+11. c3m_direccion
+Tipo: Fundamental (Registro de Ubicaciones).
+Por qué: Almacena las direcciones exactas de los predios, incluyendo calle, número, referencias y coordenadas geográficas.
+12. c3m_vivienda
+Tipo: Fundamental (Eje Central de Propiedades).
+Por qué: Constituye el padrón principal de inmuebles registrados dentro del distrito y representa el núcleo central del sistema catastral.
+13. c3m_casa_particular
+Tipo: Fundamental (Especialización de Predio).
+Por qué: Registra información específica de viviendas unifamiliares, detallando características constructivas y físicas particulares.
+14. c3m_bloque_casas
+Tipo: Fundamental (Especialización de Predio).
+Por qué: Permite registrar edificaciones multifamiliares como edificios, condominios o conjuntos residenciales que contienen múltiples unidades habitacionales.
+15. c3m_partida_registral
+Tipo: Fundamental (Seguridad Legal).
+Por qué: Vincula cada inmueble con su inscripción oficial en registros públicos, permitiendo controlar información jurídica como cargas, gravámenes o hipotecas.
+16. c4m_departamento
+Tipo: Fundamental (Sub-componente Dependiente / Entidad Débil).
+Por qué: Registra cada departamento, oficina o unidad independiente existente dentro de una edificación multifamiliar.
+17. c5m_valor_catastral
+Tipo: Fundamental (Histórico Económico).
+Por qué: Almacena la valorización catastral asignada periódicamente a cada inmueble, utilizada como base para el cálculo tributario.
+18. h6m_persona
+Tipo: Fundamental (Padrón de Ciudadanos).
+Por qué: Contiene la información básica de las personas registradas en el sistema, incluyendo identificación, datos personales e ingresos económicos.
+19. h7m_familia
+Tipo: Fundamental (Estructura Social).
+Por qué: Agrupa a las personas en núcleos familiares para fines administrativos, estadísticos y de gestión social.
+20. h6m_cab_familia
+Tipo: Fundamental (Tabla Asociativa / Relación de Parentesco).
+Por qué: Administra la composición y jerarquía de cada familia, identificando a su representante o jefe de hogar.
+21. h8m_propietario
+Tipo: Fundamental (Padrón de Contribuyentes).
+Por qué: Identifica a las personas que poseen bienes inmuebles y las vincula con la información tributaria correspondiente.
+22. h8m_prop_vivienda
+Tipo: Fundamental (Tabla Asociativa Histórica).
+Por qué: Relaciona propietarios con viviendas y conserva el historial de transferencias, compras y ventas de inmuebles.
+23. pat_tributo_cab
+Tipo: Fundamental (Cabecera Contable).
+Por qué: Registra la obligación tributaria consolidada de cada contribuyente para un periodo determinado.
+24. pat_tributo_det
+Tipo: Fundamental (Detalle Contable).
+Por qué: Desglosa cada obligación tributaria indicando los montos generados por cada inmueble o unidad inmobiliaria.
+25. pbm_tributo_presupuesto
+Tipo: Fundamental (Enlace Financiero Asociativo).
+Por qué: Relaciona la recaudación tributaria obtenida con los presupuestos anuales establecidos por la municipalidad.
+26. pcm_reportes_pre
+Tipo: Fundamental (Maestro / Plantilla de Reportes).
+Por qué: Define las estructuras, parámetros y configuraciones necesarias para la generación de reportes institucionales.
+27. pct_reportes_cab
+Tipo: Fundamental (Operación Transaccional Activa).
+Por qué: Registra las órdenes de fiscalización, inspección o auditoría que se encuentran actualmente en ejecución.
+28. pct_reportes_det
+Tipo: Fundamental (Detalle Transaccional Activo).
+Por qué: Almacena el detalle de los inmuebles o elementos específicos involucrados en cada proceso de fiscalización activo.
+29. pch_reportes_cab
+Tipo: Fundamental (Historial Permanente Cerrado).
+Por qué: Conserva el historial de las fiscalizaciones concluidas, garantizando trazabilidad y soporte para auditorías futuras.
+30. pch_reportes_det
+Tipo: Fundamental (Detalle Histórico Permanente).
+Por qué: Guarda los resultados definitivos y registros detallados de las inspecciones realizadas en periodos anteriores.
