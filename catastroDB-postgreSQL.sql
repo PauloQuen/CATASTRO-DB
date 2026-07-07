@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public.c1m_distrito
     dispro integer NOT NULL,
     disnom character varying(60) COLLATE pg_catalog."default" NOT NULL,
     disestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c1m_distrito PRIMARY KEY (discod)
 );
 
@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS public.c1m_municipalidad
     muncor character varying(80) COLLATE pg_catalog."default",
     muntelcon character varying(15) COLLATE pg_catalog."default",
     munestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c1m_municipalidad PRIMARY KEY (muncod)
 );
 
@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.c1m_provincia
     proreg integer NOT NULL,
     pronom character varying(60) COLLATE pg_catalog."default" NOT NULL,
     proestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c1m_provincia PRIMARY KEY (procod)
 );
 
@@ -41,7 +41,6 @@ CREATE TABLE IF NOT EXISTS public.c1m_region
     regcod serial NOT NULL,
     regnom character varying(60) COLLATE pg_catalog."default" NOT NULL,
     regestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial565 character(1) COLLATE pg_catalog."default",
     CONSTRAINT pk_c1m_region PRIMARY KEY (regcod)
 );
 
@@ -54,7 +53,7 @@ CREATE TABLE IF NOT EXISTS public.c2m_zona
     zontip character(1) COLLATE pg_catalog."default" NOT NULL,
     zonsupkm2 numeric(10, 2),
     zonestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c2m_zona PRIMARY KEY (zoncod)
 );
 
@@ -64,7 +63,7 @@ CREATE TABLE IF NOT EXISTS public.c3m_bloque_casas
     blometb numeric(8, 2) NOT NULL,
     blood character varying(200) COLLATE pg_catalog."default",
     bloestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c3m_bloque_casas PRIMARY KEY (blovivcod)
 );
 
@@ -74,7 +73,7 @@ CREATE TABLE IF NOT EXISTS public.c3m_casa_particular
     casmetc numeric(8, 2) NOT NULL,
     casod character varying(200) COLLATE pg_catalog."default",
     casestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c3m_casa_particular PRIMARY KEY (casvivcod)
 );
 
@@ -92,7 +91,7 @@ CREATE TABLE IF NOT EXISTS public.c3m_direccion
     dirlat numeric(10, 7),
     dirlon numeric(10, 7),
     direstreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c3m_direccion PRIMARY KEY (dircod)
 );
 
@@ -114,7 +113,6 @@ CREATE TABLE IF NOT EXISTS public.c3m_partida_registral
     prtaream2 numeric(10, 2),
     prtobs character varying(200) COLLATE pg_catalog."default",
     prtestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
     CONSTRAINT pk_c3m_partida_registral PRIMARY KEY (prtcod)
 );
 
@@ -123,7 +121,6 @@ CREATE TABLE IF NOT EXISTS public.c3m_via_tipo
     vtcod character varying(4) COLLATE pg_catalog."default" NOT NULL,
     vtnom character varying(40) COLLATE pg_catalog."default" NOT NULL,
     vtestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
     CONSTRAINT pk_c3m_via_tipo PRIMARY KEY (vtcod)
 );
 
@@ -137,7 +134,7 @@ CREATE TABLE IF NOT EXISTS public.c3m_vivienda
     vivusopr character varying(4) COLLATE pg_catalog."default",
     vivval numeric(10, 2) NOT NULL DEFAULT 0.00,
     vivestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c3m_vivienda PRIMARY KEY (vivcod)
 );
 
@@ -150,7 +147,7 @@ CREATE TABLE IF NOT EXISTS public.c4m_departamento
     depmetp numeric(6, 2) NOT NULL,
     depod character varying(200) COLLATE pg_catalog."default",
     depestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c4m_departamento PRIMARY KEY (depblocod, depesc, depniv, deppue)
 );
 
@@ -160,7 +157,7 @@ CREATE TABLE IF NOT EXISTS public.c5m_tipo_predio
     tipprnom character varying(60) COLLATE pg_catalog."default" NOT NULL,
     tipprdes character varying(200) COLLATE pg_catalog."default",
     tipprestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial568 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c5m_tipo_predio PRIMARY KEY (tipprcod)
 );
 
@@ -170,7 +167,7 @@ CREATE TABLE IF NOT EXISTS public.c5m_uso_predio
     usoprnom character varying(60) COLLATE pg_catalog."default" NOT NULL,
     usoprdes character varying(200) COLLATE pg_catalog."default",
     usoprestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c5m_uso_predio PRIMARY KEY (usoprcod)
 );
 
@@ -183,7 +180,7 @@ CREATE TABLE IF NOT EXISTS public.c5m_valor_catastral
     valfecreg date NOT NULL,
     valfecmod date,
     valestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_c5m_valor_catastral PRIMARY KEY (valcod)
 );
 
@@ -194,7 +191,7 @@ CREATE TABLE IF NOT EXISTS public.h6m_cab_familia
     cabfecini date NOT NULL,
     cabfecfin date,
     cabestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_h6m_cab_familia PRIMARY KEY (cabdni, miedni)
 );
 
@@ -207,7 +204,7 @@ CREATE TABLE IF NOT EXISTS public.h6m_persona
     pering numeric(10, 2) NOT NULL DEFAULT 0.00,
     perviv character varying(10) COLLATE pg_catalog."default",
     perestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_h6m_persona PRIMARY KEY (perdni)
 );
 
@@ -219,7 +216,7 @@ CREATE TABLE IF NOT EXISTS public.h7m_familia
     famviv character varying(10) COLLATE pg_catalog."default",
     famnummiem smallint NOT NULL DEFAULT 1,
     famestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial571 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_h7m_familia PRIMARY KEY (famcod)
 );
 
@@ -231,7 +228,7 @@ CREATE TABLE IF NOT EXISTS public.h8m_prop_vivienda
     pvfecfin date,
     pvtitulo character varying(20) COLLATE pg_catalog."default",
     pvestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_h8m_prop_vivienda PRIMARY KEY (pvprp, pvviv, pvfecini)
 );
 
@@ -244,7 +241,7 @@ CREATE TABLE IF NOT EXISTS public.h8m_propietario
     proescvig smallint,
     profeccla date,
     proestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_h8m_propietario PRIMARY KEY (procod)
 );
 
@@ -259,7 +256,7 @@ CREATE TABLE IF NOT EXISTS public.p9m_escala_tributo
     escportrib numeric(5, 2),
     escmonfij numeric(10, 2),
     escestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_p9m_escala_tributo PRIMARY KEY (esccod, escvig)
 );
 
@@ -274,7 +271,7 @@ CREATE TABLE IF NOT EXISTS public.pam_historial_tributario
     hisfecarch date NOT NULL,
     hisobs character varying(200) COLLATE pg_catalog."default",
     hisestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pam_historial_tributario PRIMARY KEY (hiscod)
 );
 
@@ -289,7 +286,7 @@ CREATE TABLE IF NOT EXISTS public.pat_tributo_cab
     trifecpag date,
     triobs character varying(200) COLLATE pg_catalog."default",
     triestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pat_tributo_cab PRIMARY KEY (tricod)
 );
 
@@ -300,7 +297,7 @@ CREATE TABLE IF NOT EXISTS public.pat_tributo_det
     tridetviv character varying(10) COLLATE pg_catalog."default" NOT NULL,
     tridetmon numeric(10, 2) NOT NULL DEFAULT 0.00,
     tridetestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pat_tributo_det PRIMARY KEY (tridetcod)
 );
 
@@ -314,7 +311,7 @@ CREATE TABLE IF NOT EXISTS public.pbm_presupuesto_anual
     premongas numeric(14, 2) NOT NULL DEFAULT 0.00,
     prefecapr date,
     preestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pbm_presupuesto_anual PRIMARY KEY (precod)
 );
 
@@ -325,7 +322,7 @@ CREATE TABLE IF NOT EXISTS public.pbm_tributo_presupuesto
     tpmonaporte numeric(14, 2) NOT NULL DEFAULT 0.00,
     tpfecreg date NOT NULL,
     tpestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial574 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pbm_tributo_presupuesto PRIMARY KEY (tppre, tptri)
 );
 
@@ -339,7 +336,7 @@ CREATE TABLE IF NOT EXISTS public.pch_reportes_cab
     hrepcabtotrec numeric(14, 2) NOT NULL DEFAULT 0.00,
     hrepcabobs character varying(200) COLLATE pg_catalog."default",
     hrepcabestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pch_reportes_cab PRIMARY KEY (hrepcabcod)
 );
 
@@ -351,7 +348,7 @@ CREATE TABLE IF NOT EXISTS public.pch_reportes_det
     hrepdetmoncal numeric(14, 2) NOT NULL DEFAULT 0.00,
     hrepdetmonpag numeric(14, 2) NOT NULL DEFAULT 0.00,
     hrepdetestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pch_reportes_det PRIMARY KEY (hrepdetcod)
 );
 
@@ -365,7 +362,7 @@ CREATE TABLE IF NOT EXISTS public.pcm_reportes_pre
     repper smallint NOT NULL,
     repfecgen date NOT NULL,
     repestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pcm_reportes_pre PRIMARY KEY (repcod)
 );
 
@@ -379,7 +376,7 @@ CREATE TABLE IF NOT EXISTS public.pct_reportes_cab
     repcabtotrec numeric(14, 2) NOT NULL DEFAULT 0.00,
     repcabobs character varying(200) COLLATE pg_catalog."default",
     repcabestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pct_reportes_cab PRIMARY KEY (repcabcod)
 );
 
@@ -393,7 +390,7 @@ CREATE TABLE IF NOT EXISTS public.pct_reportes_det
     repdetmoncal numeric(14, 2) NOT NULL DEFAULT 0.00,
     repdetmonpag numeric(14, 2) NOT NULL DEFAULT 0.00,
     repdetestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default",
+
     CONSTRAINT pk_pct_reportes_det PRIMARY KEY (repdetcod)
 );
 
@@ -414,7 +411,7 @@ CREATE TABLE IF NOT EXISTS public.vw_predio_detallado
     provincia character varying(60) COLLATE pg_catalog."default" NOT NULL,
     region character varying(60) COLLATE pg_catalog."default" NOT NULL,
     estado_predio character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default"
+
 );
 
 CREATE TABLE IF NOT EXISTS public.vw_propietario_persona
@@ -427,7 +424,7 @@ CREATE TABLE IF NOT EXISTS public.vw_propietario_persona
     proesccod character varying(4) COLLATE pg_catalog."default",
     proescvig smallint,
     proestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default"
+
 );
 
 CREATE TABLE IF NOT EXISTS public.vw_vivienda_completa
@@ -440,7 +437,7 @@ CREATE TABLE IF NOT EXISTS public.vw_vivienda_completa
     uso_predio character varying(60) COLLATE pg_catalog."default",
     uso_predio_desc character varying(200) COLLATE pg_catalog."default",
     vivestreg character(1) COLLATE pg_catalog."default" NOT NULL DEFAULT '1'::bpchar,
-    trial578 character(1) COLLATE pg_catalog."default"
+
 );
 
 ALTER TABLE IF EXISTS public.c1m_distrito
